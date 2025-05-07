@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.Robot;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.geometry.Pose2d;
@@ -24,23 +25,14 @@ public class Bot extends Robot {
     @Getter
     public final GamepadEx opertator;
 
-    public Bot(Telemetry telem, HardwareMap hMap, GamepadEx gamepad, GamepadEx gamepad2) {
+    public Bot(MultipleTelemetry telem, HardwareMap hMap, GamepadEx gamepad, GamepadEx gamepad2) {
         this.telem = telem;
         this.hMap = hMap;
         this.driver = gamepad;
         this.opertator = gamepad2;
 
         // TODO: Adjust IMU parameters to match hub orientation
-        imu = hMap.get(IMU.class, "imu");
-        imu.initialize(
-                new IMU.Parameters(
-                        new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
-                        )
-                )
-        );
-        imu.resetYaw();
+        imu = ImuGlobal.getImu(hMap);
     }
     /**
      * Get the IMU object for the robot

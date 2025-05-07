@@ -6,11 +6,10 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.commands.XDriveBSCommand;
 import org.firstinspires.ftc.teamcode.commands.XDriveFieldOrientedCommand;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
-public class teleop extends CommandOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "AutoHelper", group = "Tools")
+public class autohelper extends CommandOpMode {
     private Bot bot;
     private MultipleTelemetry telem;
     private GamepadEx driverGamepad;
@@ -25,27 +24,15 @@ public class teleop extends CommandOpMode {
         driverGamepad = new GamepadEx(gamepad1);
         operatorGamepad = new GamepadEx(gamepad2);
 
+
         bot = new Bot(telem, hardwareMap, driverGamepad, operatorGamepad);
 
         XDriveSubsystem xDrive = new XDriveSubsystem(bot);
 
-        XDriveFieldOrientedCommand driveCommand = new XDriveFieldOrientedCommand(
-                xDrive,
-                driverGamepad
-        );
-
-        xDrive.setDefaultCommand(driveCommand);
-
-        /*
-        XDriveFieldOrientedCommand driveCommand = new XDriveBSCommand(
-                xDrive,
-                driverGamepad
-        );
-        */
-
         while (opModeInInit()){
             telem.update();
         }
+
 
     }
 }

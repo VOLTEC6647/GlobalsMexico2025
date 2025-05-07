@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.Subsystem;
+import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,13 +9,15 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+import lombok.Getter;
+
 public class XDriveSubsystem implements Subsystem {
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
     private IMU imu = null;
-
+    public Bot bot;
     public Rotation2d getRobotOrientation() {
         return new Rotation2d(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
@@ -40,11 +43,22 @@ public class XDriveSubsystem implements Subsystem {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         imu = bot.hMap.get(IMU.class, "imu");
+        this.bot = bot;
     }
 
     public void teleopDrive(double x, double y, double rot){
-        double y_joystick = -y;
+        double y_joystick = y;
         double x_joystick = x;
         double rx_joystick = rot;
 
@@ -76,6 +90,39 @@ public class XDriveSubsystem implements Subsystem {
         frontRightMotor.setPower(frontRightPower);
         backLeftMotor.setPower(backLeftPower);
         backRightMotor.setPower(backRightPower);
+    }
+
+    public double getFL(){
+        return frontLeftMotor.getCurrentPosition();
+    }
+    public double getFR(){
+        return frontRightMotor.getCurrentPosition();
+    }
+    public double getBL(){
+        return backLeftMotor.getCurrentPosition();
+    }
+    public double getBR(){
+        return backRightMotor.getCurrentPosition();
+    }
+
+    @Override
+    public void periodic(){
+        bot.telem.addData("FL", frontLeftMotor.getCurrentPosition());
+        bot.telem.addData("FR", frontRightMotor.getCurrentPosition());
+        bot.telem.addData("BL", backLeftMotor.getCurrentPosition());
+        bot.telem.addData("BR", backRightMotor.getCurrentPosition());
+    }
+
+    public void resetEncoders(){
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 }

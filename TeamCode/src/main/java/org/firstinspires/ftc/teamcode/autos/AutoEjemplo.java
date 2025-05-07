@@ -1,16 +1,21 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
 
-import org.firstinspires.ftc.teamcode.commands.XDriveBSCommand;
+import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.XDriveSubsystem;
 import org.firstinspires.ftc.teamcode.commands.XDriveFieldOrientedCommand;
+import org.firstinspires.ftc.teamcode.commands.XDriveToMagicNumberCommand;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
-public class teleop extends CommandOpMode {
+public class AutoEjemplo extends CommandOpMode {
     private Bot bot;
     private MultipleTelemetry telem;
     private GamepadEx driverGamepad;
@@ -29,19 +34,15 @@ public class teleop extends CommandOpMode {
 
         XDriveSubsystem xDrive = new XDriveSubsystem(bot);
 
-        XDriveFieldOrientedCommand driveCommand = new XDriveFieldOrientedCommand(
-                xDrive,
-                driverGamepad
-        );
 
-        xDrive.setDefaultCommand(driveCommand);
+        //xDrive, double target, double xSpeed, double ySpeed, Rotation2d rotation
+        schedule(
+                new SequentialCommandGroup(
+                        new XDriveToMagicNumberCommand(xDrive, 100,0,1, Rotation2d.fromDegrees(0)),
+                        new WaitCommand(3000),
+                        new XDriveToMagicNumberCommand(xDrive, 100,1,0, Rotation2d.fromDegrees(0))
 
-        /*
-        XDriveFieldOrientedCommand driveCommand = new XDriveBSCommand(
-                xDrive,
-                driverGamepad
-        );
-        */
+                        ));
 
         while (opModeInInit()){
             telem.update();
