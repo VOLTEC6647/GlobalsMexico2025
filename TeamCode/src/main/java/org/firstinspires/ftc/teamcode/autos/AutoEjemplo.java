@@ -10,8 +10,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 
 import org.firstinspires.ftc.teamcode.Bot;
-import org.firstinspires.ftc.teamcode.XDriveSubsystem;
-import org.firstinspires.ftc.teamcode.commands.XDriveFieldOrientedCommand;
+import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 import org.firstinspires.ftc.teamcode.commands.XDriveToMagicNumberCommand;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")

@@ -4,8 +4,8 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 
-import org.firstinspires.ftc.teamcode.Utils;
-import org.firstinspires.ftc.teamcode.XDriveSubsystem;
+import org.firstinspires.ftc.teamcode.utils.Utils;
+import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 

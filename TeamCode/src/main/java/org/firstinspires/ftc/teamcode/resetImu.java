@@ -4,7 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
+
+import org.firstinspires.ftc.teamcode.utils.ImuGlobal;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "ResetIMU", group = "Tools")
 public class resetImu extends CommandOpMode {

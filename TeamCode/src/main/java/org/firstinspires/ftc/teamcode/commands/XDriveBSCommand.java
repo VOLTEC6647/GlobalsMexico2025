@@ -5,8 +5,8 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 
-import org.firstinspires.ftc.teamcode.Utils;
-import org.firstinspires.ftc.teamcode.XDriveSubsystem;
+import org.firstinspires.ftc.teamcode.utils.Utils;
+import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
 public class XDriveBSCommand extends CommandBase {
     private final GamepadEx driverGamepad;

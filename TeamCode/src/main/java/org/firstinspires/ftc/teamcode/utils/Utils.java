@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.utils;
 
 import com.arcrobotics.ftclib.geometry.Rotation2d;
+
+import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
 public class Utils {
     public static double getRotationTarget(XDriveSubsystem drivetrain, Rotation2d currentRotation){

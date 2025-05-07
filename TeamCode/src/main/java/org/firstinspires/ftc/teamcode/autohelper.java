@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.commands.XDriveFieldOrientedCommand;
+import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "AutoHelper", group = "Tools")
 public class autohelper extends CommandOpMode {
