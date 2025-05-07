@@ -123,4 +123,11 @@ public class XDriveSubsystem implements Subsystem {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void setBreakMode(DcMotor.ZeroPowerBehavior mode){
+        frontLeftMotor.setZeroPowerBehavior(mode);
+        frontRightMotor.setZeroPowerBehavior(mode);
+        backLeftMotor.setZeroPowerBehavior(mode);
+        backRightMotor.setZeroPowerBehavior(mode);
+    }
+
 }

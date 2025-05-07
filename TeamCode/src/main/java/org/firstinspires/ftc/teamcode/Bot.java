@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.Robot;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.ImuGlobal;
@@ -12,24 +13,22 @@ import org.firstinspires.ftc.teamcode.utils.ImuGlobal;
 import lombok.Getter;
 
 public class Bot extends Robot {
-    @Getter
     private final IMU imu;
-    @Getter
     public final Telemetry telem;
-    @Getter
     public final HardwareMap hMap;
-    @Getter
     public final GamepadEx driver;
-    @Getter
     public final GamepadEx opertator;
 
-    public Bot(MultipleTelemetry telem, HardwareMap hMap, GamepadEx gamepad, GamepadEx gamepad2) {
+    public final ElapsedTime timer;
+
+    public Bot(Telemetry telem, HardwareMap hMap, GamepadEx gamepad, GamepadEx gamepad2) {
         this.telem = telem;
         this.hMap = hMap;
         this.driver = gamepad;
         this.opertator = gamepad2;
 
-        // TODO: Adjust IMU parameters to match hub orientation
+        this.timer = new ElapsedTime();
+
         imu = ImuGlobal.getImu(hMap);
     }
     /**
@@ -42,4 +41,8 @@ public class Bot extends Robot {
      * Get the MecanumDrivetrain subsystem of the robot
      * @return the mecanum subsystem of the robot
      */
+
+    public double getTimestamp() {
+        return timer.seconds();
+    }
 }

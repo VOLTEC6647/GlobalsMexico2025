@@ -10,10 +10,11 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 
 import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.teamcode.commands.XSetRotation;
 import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 import org.firstinspires.ftc.teamcode.commands.XDriveToMagicNumberCommand;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Auto Ejemplo", group = "Auto")
 public class AutoEjemplo extends CommandOpMode {
     private Bot bot;
     private MultipleTelemetry telem;
@@ -30,22 +31,26 @@ public class AutoEjemplo extends CommandOpMode {
         operatorGamepad = new GamepadEx(gamepad2);
 
         bot = new Bot(telem, hardwareMap, driverGamepad, operatorGamepad);
+        bot.getImu().resetYaw();
 
         XDriveSubsystem xDrive = new XDriveSubsystem(bot);
-
+        xDrive.register();
 
         //xDrive, double target, double xSpeed, double ySpeed, Rotation2d rotation
         schedule(
                 new SequentialCommandGroup(
-                        new XDriveToMagicNumberCommand(xDrive, 100,0,1, Rotation2d.fromDegrees(0)),
-                        new WaitCommand(3000),
-                        new XDriveToMagicNumberCommand(xDrive, 100,1,0, Rotation2d.fromDegrees(0))
+                        new XDriveToMagicNumberCommand(xDrive, 559,0,1, Rotation2d.fromDegrees(0)),
+                        new XSetRotation(xDrive,Rotation2d.fromDegrees(-90))
+                        //new WaitCommand(3000),
+                        //new XDriveToMagicNumberCommand(xDrive, 100,1,0, Rotation2d.fromDegrees(0))
 
                         ));
+    }
 
-        while (opModeInInit()){
-            telem.update();
-        }
-
+    @Override
+    public void run() {
+        CommandScheduler.getInstance().run();
+        telem.addData("status","start");
+        telem.update();
     }
 }

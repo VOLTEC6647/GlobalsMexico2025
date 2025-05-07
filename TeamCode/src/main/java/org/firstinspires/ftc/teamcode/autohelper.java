@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
@@ -28,11 +29,18 @@ public class autohelper extends CommandOpMode {
         bot = new Bot(telem, hardwareMap, driverGamepad, operatorGamepad);
 
         XDriveSubsystem xDrive = new XDriveSubsystem(bot);
+        xDrive.setBreakMode(DcMotor.ZeroPowerBehavior.FLOAT);
+        xDrive.register();
 
-        while (opModeInInit()){
-            telem.update();
-        }
+        telem.addData("status","init");
+        telem.update();
 
+    }
 
+    @Override
+    public void run() {
+        CommandScheduler.getInstance().run();
+        telem.addData("status","start");
+        telem.update();
     }
 }

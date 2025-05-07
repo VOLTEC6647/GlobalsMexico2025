@@ -11,14 +11,16 @@ import java.util.function.DoubleSupplier;
 
 public class XDriveToMagicNumberCommand extends CommandBase {
     private final XDriveSubsystem drivetrain;
-    private final PIDFController xController = new PIDFController(0.1, 0, 0.0, 0.0);
-    private final PIDFController yController = new PIDFController(0.1, 0, 0.0, 0.0);
-    private final PIDFController rotController = new PIDFController(0.1, 0, 0.0, 0.0);
+    private final PIDFController xController = new PIDFController(0.005, 0, 0.0, 0.0);
+    private final PIDFController yController = new PIDFController(0.005, 0, 0.0, 0.0);
+    private final PIDFController rotController = new PIDFController(0.04, 0, 0.0, 0.0);
     private final double movementTarget;
     private final DoubleSupplier currentPose;
     private double xSpeed;
     private double ySpeed;
     private final Rotation2d targetRotation;
+
+
 
     public XDriveToMagicNumberCommand(XDriveSubsystem drive, double target, double xSpeed, double ySpeed, Rotation2d rotation){
         this.drivetrain = drive;
@@ -46,9 +48,9 @@ public class XDriveToMagicNumberCommand extends CommandBase {
         xController.setIntegrationBounds(-1,1);
         yController.setIntegrationBounds(-1,1);
         rotController.setIntegrationBounds(-1,1);
-        xController.setTolerance(1);
-        yController.setTolerance(1);
-        rotController.setTolerance(3);
+        xController.setTolerance(20);
+        yController.setTolerance(20);
+        rotController.setTolerance(2);
         //xSpeed = Math.abs(xSpeed);
         //ySpeed = Math.abs(ySpeed);
     }
@@ -57,7 +59,7 @@ public class XDriveToMagicNumberCommand extends CommandBase {
     public void execute() {
         double xOutput = xController.calculate(currentPose.getAsDouble(), movementTarget);
         double yOutput = yController.calculate(currentPose.getAsDouble(), movementTarget);
-        double rotOutput = rotController.calculate(drivetrain.getRobotOrientation().getDegrees(), Utils.getRotationTarget(drivetrain, targetRotation));
+        double rotOutput = -rotController.calculate(drivetrain.getRobotOrientation().getDegrees(), Utils.getRotationTarget(drivetrain, targetRotation));
         drivetrain.teleopDrive(
                 xOutput * xSpeed,
                 yOutput * ySpeed,

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 public class XDriveBSCommand extends CommandBase {
     private final GamepadEx driverGamepad;
     private final XDriveSubsystem drivetrain;
-    private final PIDFController rotationController = new PIDFController(0.1, 0, 0.0, 0.0);
+    private final PIDFController rotationController = new PIDFController(0.01, 0, 0.0, 0.0);
     private Rotation2d currentRotation = new Rotation2d();
     public XDriveBSCommand(XDriveSubsystem drive, GamepadEx driverGamepad){
         this.driverGamepad = driverGamepad;
@@ -23,9 +23,9 @@ public class XDriveBSCommand extends CommandBase {
     @Override
     public void execute() {
         if (Math.abs(driverGamepad.getRightX()) > 0.4 || Math.abs(driverGamepad.getRightY()) > 0.4) {
-            currentRotation = new Rotation2d(driverGamepad.getRightX(), driverGamepad.getRightY());
+            currentRotation = new Rotation2d(driverGamepad.getRightX(), -driverGamepad.getRightY());
         }
-        double rotationOutput = rotationController.calculate(drivetrain.getRobotOrientation().getDegrees(), Utils.getRotationTarget(drivetrain, currentRotation));
+        double rotationOutput = -rotationController.calculate(drivetrain.getRobotOrientation().getDegrees(), Utils.getRotationTarget(drivetrain, currentRotation));
         drivetrain.teleopDrive(
                 driverGamepad.getLeftX(),
                 driverGamepad.getLeftY(),
@@ -34,6 +34,7 @@ public class XDriveBSCommand extends CommandBase {
 
         drivetrain.bot.telem.addData("Rotation is at setpoint", rotationController.atSetPoint());
         drivetrain.bot.telem.addData("Rotation Target", currentRotation.getDegrees());
+        drivetrain.bot.telem.addData("Current Rotation", drivetrain.getRobotOrientation().getDegrees());
         drivetrain.bot.telem.addData("Rotation Output", rotationOutput);
     }
 }

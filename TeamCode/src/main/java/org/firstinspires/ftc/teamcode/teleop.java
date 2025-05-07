@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
+import org.firstinspires.ftc.teamcode.commands.XDriveBSCommand;
 import org.firstinspires.ftc.teamcode.commands.XDriveFieldOrientedCommand;
 import org.firstinspires.ftc.teamcode.subsystems.XDriveSubsystem;
 
@@ -26,26 +28,37 @@ public class teleop extends CommandOpMode {
         operatorGamepad = new GamepadEx(gamepad2);
 
         bot = new Bot(telem, hardwareMap, driverGamepad, operatorGamepad);
+        bot.getImu().resetYaw();
 
         XDriveSubsystem xDrive = new XDriveSubsystem(bot);
+        xDrive.register();
 
-        XDriveFieldOrientedCommand driveCommand = new XDriveFieldOrientedCommand(
-                xDrive,
-                driverGamepad
-        );
+        CommandBase driveCommand;
+        if(false){
+            driveCommand = new XDriveFieldOrientedCommand(
+                    xDrive,
+                    driverGamepad
+            );
+        }else{
+            driveCommand = new XDriveBSCommand(
+                    xDrive,
+                    driverGamepad
+            );
+        }
 
         xDrive.setDefaultCommand(driveCommand);
 
-        /*
-        XDriveFieldOrientedCommand driveCommand = new XDriveBSCommand(
-                xDrive,
-                driverGamepad
-        );
-        */
-
-        while (opModeInInit()){
-            telem.update();
-        }
+        telem.addData("status","init");
+        telem.update();
 
     }
+
+    @Override
+    public void run() {
+        CommandScheduler.getInstance().run();
+        telem.addData("status","start");
+        telem.update();
+    }
+
+
 }
