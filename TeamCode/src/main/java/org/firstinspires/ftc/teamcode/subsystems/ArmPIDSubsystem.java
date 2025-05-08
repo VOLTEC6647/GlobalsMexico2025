@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Subsystem;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.libs.MiniPID;
 public class ArmPIDSubsystem implements Subsystem {
 
     private double pidOutput;
-    private MiniPID pid;
+    private final PIDFController pid = new PIDFController(0.05, 0, 0.0, 0.0);
     private Bot bot;
     public int setPoint = 0;
     public int currentPosition = 0;
@@ -24,11 +25,9 @@ public class ArmPIDSubsystem implements Subsystem {
     public ArmPIDSubsystem(Bot bot) {
         this.bot = bot;
 
-        pid = new MiniPID(0.005,0,0.0012);
+        pid.setIntegrationBounds(-1,1);
 
-        pid.setSetpoint(setPoint);
-
-        pid.setOutputLimits(-0.7, 0.7);
+        pid.setTolerance(20);
 
 
         motorRotate = bot.hMap.get(DcMotor.class, "motorR");
@@ -45,12 +44,6 @@ public class ArmPIDSubsystem implements Subsystem {
     }
     public void setSetpoint (int setPoint) {
         this.setPoint = setPoint;
-    }
-    public void pickup () {
-        setPoint = 759;
-    }
-    public void close () {
-        setPoint = 0;
     }
 
 
@@ -73,13 +66,9 @@ public class ArmPIDSubsystem implements Subsystem {
             setPoint = 650;
         }
 
+        pid.calculate(motorRotate.getCurrentPosition(), setPoint);
 
-
-        pid.setSetpoint(setPoint);
-
-        pidOutput = pid.getOutput(motorRotate.getCurrentPosition());
-
-        motorRotate.setPower(pidOutput);
+        bot.telem.addData("Setpoint", setPoint);
 
 
     }
