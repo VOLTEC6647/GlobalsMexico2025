@@ -45,6 +45,6 @@ public class XSetRotation extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return rotDebouncer.calculate(rotController.atSetPoint());
+        return rotController.atSetPoint();
     }
 }
