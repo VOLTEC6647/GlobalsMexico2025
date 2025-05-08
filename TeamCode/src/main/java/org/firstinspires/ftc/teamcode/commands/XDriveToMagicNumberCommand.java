@@ -73,6 +73,6 @@ public class XDriveToMagicNumberCommand extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return ((xController.atSetPoint() && xSpeed != 0) || (yController.atSetPoint() && xSpeed != 0)) && rotController.atSetPoint();
+        return ((xController.atSetPoint() && xSpeed != 0) || (yController.atSetPoint() && ySpeed != 0)) && rotController.atSetPoint();
     }
 }

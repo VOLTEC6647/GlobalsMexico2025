@@ -13,7 +13,7 @@ import java.util.function.DoubleSupplier;
 
 public class XSetRotation extends CommandBase {
     private final XDriveSubsystem drivetrain;
-    private final PIDFController rotController = new PIDFController(0.1, 0, 0.0, 0.0);
+    private final PIDFController rotController = new PIDFController(0.005, 0.001, 0.0, 0.0);
     private final Rotation2d targetRotation;
 
     private Debouncer rotDebouncer;
