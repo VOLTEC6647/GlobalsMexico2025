@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.subsystems.AnyArm;
 import org.firstinspires.ftc.teamcode.subsystems.ArmPIDSubsystem;
 
 public class ArmPIDOrientedCommand extends CommandBase {
-    private final ArmPIDSubsystem arm;
+    private final AnyArm arm;
     private int setPoint;
-    public ArmPIDOrientedCommand (ArmPIDSubsystem arm, int setPoint){
+    public ArmPIDOrientedCommand (AnyArm arm, int setPoint){
         this.arm = arm;
         this.setPoint = setPoint;
         addRequirements(arm);
@@ -18,6 +19,6 @@ public class ArmPIDOrientedCommand extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        return Math.abs(setPoint - arm.motorRotate.getCurrentPosition()) < 20;
+        return Math.abs(setPoint - arm.getMotorRotate().getCurrentPosition()) < 20;
     }
 }

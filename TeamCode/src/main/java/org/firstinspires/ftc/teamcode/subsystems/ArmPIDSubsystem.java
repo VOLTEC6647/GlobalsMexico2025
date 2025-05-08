@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.Bot;
 import org.firstinspires.ftc.teamcode.libs.MiniPID;
 
-public class ArmPIDSubsystem implements Subsystem {
+public class ArmPIDSubsystem implements AnyArm{
 
     private double pidOutput;
     private MiniPID pid;
@@ -43,9 +43,16 @@ public class ArmPIDSubsystem implements Subsystem {
         bot.telem.addData("servoRotateRight",motorRotate.getCurrentPosition());
 
     }
+    @Override
     public void setSetpoint (int setPoint) {
         this.setPoint = setPoint;
     }
+
+    @Override
+    public DcMotor getMotorRotate() {
+        return motorRotate;
+    }
+
     public void pickup () {
         setPoint = 759;
     }
