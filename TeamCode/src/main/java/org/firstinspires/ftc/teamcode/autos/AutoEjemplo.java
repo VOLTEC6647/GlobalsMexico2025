@@ -47,7 +47,7 @@ public class AutoEjemplo extends CommandOpMode {
                 new SequentialCommandGroup(
                         new XDriveToMagicNumberCommand(xDrive, 559,0,1, Rotation2d.fromDegrees(0)),
                         new WaitCommand(2000),
-                        new ArmPIDOrientedCommand(arm, 20),
+                        new ArmPIDOrientedCommand(arm, 200),
                         new XSetRotation(xDrive,Rotation2d.fromDegrees(90)),
                         new XDriveToMagicNumberCommand(xDrive, 559,0,1, Rotation2d.fromDegrees(0))
                         //new WaitCommand(3000),

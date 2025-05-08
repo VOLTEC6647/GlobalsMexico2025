@@ -84,6 +84,7 @@ public class teleop extends CommandOpMode {
         drive.setDefaultCommand(driveCommand);
 
         while (opModeInInit()){
+            arm.disableperiodictwo();
             telem.update();
         }
         //endregion
